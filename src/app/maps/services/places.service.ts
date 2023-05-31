@@ -1,10 +1,16 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { Feature, PlacesResponse } from '../interfaces/places.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlacesService {
   public userLocation?: [number, number] | undefined;
+  public isLoadingPlaces: boolean = false;
+  public places: Feature[] = [];
+
+  private http = inject(HttpClient);
 
   get isUserLocationReady(): boolean {
     return !!this.userLocation;
@@ -27,6 +33,17 @@ export class PlacesService {
           reject();
         }
       );
+    });
+  }
+
+  getPlacesByQuery(query: string = '') {
+    this.isLoadingPlaces = true;
+    const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?proximity=-76.2227871093026%2C5.889797798607972&language=es&access_token=pk.eyJ1IjoiaWtldmluOTIiLCJhIjoiY2tpaWQ3NzBlMDhoODJ3bnhjeDdnNDE1MiJ9.3bNHLj9E8XyrANMYSXzn8Q`;
+
+    this.http.get<PlacesResponse>(url).subscribe((resp) => {
+      console.log(resp.features);
+      this.places = resp.features;
+      this.isLoadingPlaces = true;
     });
   }
 }
