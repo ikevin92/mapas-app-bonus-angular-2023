@@ -22,7 +22,7 @@ export class PlacesService {
           resolve(this.userLocation);
         },
         (err) => {
-          alert('no se puede obtener la geolocalización');
+          alert('no se puede obtener la geo-localización');
           console.error(err);
           reject();
         }
