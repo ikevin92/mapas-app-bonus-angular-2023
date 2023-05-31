@@ -38,6 +38,11 @@ export class PlacesService {
   }
 
   getPlacesByQuery(query: string = '') {
+    if (query.length === 0) {
+      this.places = [];
+      this.isLoadingPlaces = false;
+      return;
+    }
     if (!this.userLocation) throw Error('No existe el userLocation');
 
     this.isLoadingPlaces = true;
@@ -48,7 +53,6 @@ export class PlacesService {
     };
 
     this.placesApi.get<PlacesResponse>(url, { params }).subscribe((resp) => {
-      console.log(resp.features);
       this.places = resp.features;
       this.isLoadingPlaces = false;
     });
