@@ -1,6 +1,5 @@
 import { HttpClient, HttpHandler, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { accessToken } from 'mapbox-gl';
 import { environment } from 'src/environments/environment.development';
 
 @Injectable({
